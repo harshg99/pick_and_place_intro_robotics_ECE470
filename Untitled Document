@@ -1,0 +1,89 @@
+
+		ROS_INFO("sending Goals 1");
+		driver_msg.destination=Q[0][0];
+		pub_command.publish(driver_msg);  // publish command, but note that is possible that
+												  // the subscriber will not receive this message.
+		spincount = 0;
+		while (isReady) { // Waiting for isReady to be false meaning that the driver has the new command
+			ros::spinOnce();  // Allow other ROS functionallity to run
+			loop_rate.sleep(); // Sleep and wake up at 1/20 second (1/SPIN_RATE) interval
+			if (spincount > SPIN_RATE) {  // if isReady does not get set within 1 second re-publish
+				pub_command.publish(driver_msg);
+				ROS_INFO("Just Published again driver_msg");
+				spincount = 0;
+			}
+			spincount++;  // keep track of loop count
+		}
+
+		ROS_INFO("waiting for rdy");  // Now wait for robot arm to reach the commanded waypoint.
+		while(!isReady)
+		{
+			ros::spinOnce();
+			loop_rate.sleep();
+		}
+
+		srv.request.fun = 1;
+		srv.request.pin = 0;  //Digital Output 0
+		srv.request.state = 1.0; //Set DO0 on
+		if (srv_SetIO.call(srv)) {
+			ROS_INFO("True: Switched Suction ON");
+		} else {
+			ROS_INFO("False");
+		}
+
+		ROS_INFO("sending Goals 2");
+		driver_msg.destination=Q[0][1];
+		driver_msg.duration=2.0;
+		pub_command.publish(driver_msg);  // publish command, but note that is possible that
+												  // the subscriber will not receive this message.
+		spincount = 0;
+		while (isReady) { // Waiting for isReady to be false meaning that the driver has the new command
+			ros::spinOnce();  // Allow other ROS functionallity to run
+			loop_rate.sleep(); // Sleep and wake up at 1/20 second (1/SPIN_RATE) interval
+			if (spincount > SPIN_RATE) {  // if isReady does not get set within 1 second re-publish
+				pub_command.publish(driver_msg);
+				ROS_INFO("Just Published again driver_msg");
+				spincount = 0;
+			}
+			spincount++;  // keep track of loop count
+		}
+
+		ROS_INFO("waiting for rdy");  // Now wait for robot arm to reach the commanded waypoint.
+		while(!isReady)
+		{
+			ros::spinOnce();
+			loop_rate.sleep();
+		}
+
+		srv.request.fun = 1;
+		srv.request.pin = 0; // Digital Output 0
+		srv.request.state = 0.0; //Set DO0 off
+		if (srv_SetIO.call(srv)) {
+			ROS_INFO("True: Switched Suction OFF");
+		} else {
+			ROS_INFO("False");
+		}
+
+		ROS_INFO("sending Goals 3");
+		driver_msg.destination=Q[0][2];
+		driver_msg.duration=1.0;
+		pub_command.publish(driver_msg);  // publish command, but note that is possible that
+												  // the subscriber will not receive this message.
+		spincount = 0;
+		while (isReady) { // Waiting for isReady to be false meaning that the driver has the new command
+			ros::spinOnce();  // Allow other ROS functionallity to run
+			loop_rate.sleep(); // Sleep and wake up at 1/20 second (1/SPIN_RATE) interval
+			if (spincount > SPIN_RATE) {  // if isReady does not get set within 1 second re-publish
+				pub_command.publish(driver_msg);
+				ROS_INFO("Just Published again driver_msg");
+				spincount = 0;
+			}
+			spincount++;  // keep track of loop count
+		}
+
+		ROS_INFO("waiting for rdy");  // Now wait for robot arm to reach the commanded waypoint.
+		while(!isReady)
+		{
+			ros::spinOnce();
+			loop_rate.sleep();
+		}
