@@ -120,6 +120,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/ur3/catkin_harshg2/build/lab2andDriver/drivers/ur_description/cmake_install.cmake")
   include("/home/ur3/catkin_harshg2/build/lab2andDriver/drivers/ece470_ur3_driver/cmake_install.cmake")
   include("/home/ur3/catkin_harshg2/build/lab2andDriver/lab2pkg/cmake_install.cmake")
+  include("/home/ur3/catkin_harshg2/build/lab3pkg/cmake_install.cmake")
   include("/home/ur3/catkin_harshg2/build/lab2andDriver/drivers/cv_camera/cmake_install.cmake")
   include("/home/ur3/catkin_harshg2/build/lab2andDriver/drivers/ur_modern_driver/cmake_install.cmake")
 

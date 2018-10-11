@@ -1871,6 +1871,119 @@ clean: lab2andDriver/lab2pkg/CMakeFiles/lab2node.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Directory level rules for directory lab3pkg
+
+# Convenience name for "all" pass in the directory.
+lab3pkg/all: lab3pkg/CMakeFiles/lab3pkglib.dir/all
+lab3pkg/all: lab3pkg/CMakeFiles/lab3node.dir/all
+
+.PHONY : lab3pkg/all
+
+# Convenience name for "clean" pass in the directory.
+lab3pkg/clean: lab3pkg/CMakeFiles/lab3pkglib.dir/clean
+lab3pkg/clean: lab3pkg/CMakeFiles/lab3node.dir/clean
+
+.PHONY : lab3pkg/clean
+
+# Convenience name for "preinstall" pass in the directory.
+lab3pkg/preinstall:
+
+.PHONY : lab3pkg/preinstall
+
+#=============================================================================
+# Target rules for target lab3pkg/CMakeFiles/lab3pkglib.dir
+
+# All Build rule for target.
+lab3pkg/CMakeFiles/lab3pkglib.dir/all:
+	$(MAKE) -f lab3pkg/CMakeFiles/lab3pkglib.dir/build.make lab3pkg/CMakeFiles/lab3pkglib.dir/depend
+	$(MAKE) -f lab3pkg/CMakeFiles/lab3pkglib.dir/build.make lab3pkg/CMakeFiles/lab3pkglib.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ur3/catkin_harshg2/build/CMakeFiles --progress-num=38,39 "Built target lab3pkglib"
+.PHONY : lab3pkg/CMakeFiles/lab3pkglib.dir/all
+
+# Include target in all.
+all: lab3pkg/CMakeFiles/lab3pkglib.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+lab3pkg/CMakeFiles/lab3pkglib.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ur3/catkin_harshg2/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 lab3pkg/CMakeFiles/lab3pkglib.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ur3/catkin_harshg2/build/CMakeFiles 0
+.PHONY : lab3pkg/CMakeFiles/lab3pkglib.dir/rule
+
+# Convenience name for target.
+lab3pkglib: lab3pkg/CMakeFiles/lab3pkglib.dir/rule
+
+.PHONY : lab3pkglib
+
+# clean rule for target.
+lab3pkg/CMakeFiles/lab3pkglib.dir/clean:
+	$(MAKE) -f lab3pkg/CMakeFiles/lab3pkglib.dir/build.make lab3pkg/CMakeFiles/lab3pkglib.dir/clean
+.PHONY : lab3pkg/CMakeFiles/lab3pkglib.dir/clean
+
+# clean rule for target.
+clean: lab3pkg/CMakeFiles/lab3pkglib.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target lab3pkg/CMakeFiles/lab3node.dir
+
+# All Build rule for target.
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/ece470_ur3_driver_generate_messages_nodejs.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/ece470_ur3_driver_generate_messages_lisp.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/ece470_ur3_driver_generate_messages_eus.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/ece470_ur3_driver_generate_messages_cpp.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/std_msgs_generate_messages_py.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/roscpp_generate_messages_py.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/roscpp_generate_messages_cpp.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/ece470_ur3_driver_generate_messages_py.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/roscpp_generate_messages_lisp.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/std_msgs_generate_messages_eus.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/roscpp_generate_messages_eus.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/roscpp_generate_messages_nodejs.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/std_msgs_generate_messages_cpp.dir/all
+lab3pkg/CMakeFiles/lab3node.dir/all: lab2andDriver/drivers/ece470_ur3_driver/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
+	$(MAKE) -f lab3pkg/CMakeFiles/lab3node.dir/build.make lab3pkg/CMakeFiles/lab3node.dir/depend
+	$(MAKE) -f lab3pkg/CMakeFiles/lab3node.dir/build.make lab3pkg/CMakeFiles/lab3node.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ur3/catkin_harshg2/build/CMakeFiles --progress-num=35,36,37 "Built target lab3node"
+.PHONY : lab3pkg/CMakeFiles/lab3node.dir/all
+
+# Include target in all.
+all: lab3pkg/CMakeFiles/lab3node.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+lab3pkg/CMakeFiles/lab3node.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ur3/catkin_harshg2/build/CMakeFiles 15
+	$(MAKE) -f CMakeFiles/Makefile2 lab3pkg/CMakeFiles/lab3node.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ur3/catkin_harshg2/build/CMakeFiles 0
+.PHONY : lab3pkg/CMakeFiles/lab3node.dir/rule
+
+# Convenience name for target.
+lab3node: lab3pkg/CMakeFiles/lab3node.dir/rule
+
+.PHONY : lab3node
+
+# clean rule for target.
+lab3pkg/CMakeFiles/lab3node.dir/clean:
+	$(MAKE) -f lab3pkg/CMakeFiles/lab3node.dir/build.make lab3pkg/CMakeFiles/lab3node.dir/clean
+.PHONY : lab3pkg/CMakeFiles/lab3node.dir/clean
+
+# clean rule for target.
+clean: lab3pkg/CMakeFiles/lab3node.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Directory level rules for directory lab2andDriver/drivers/cv_camera
 
 # Convenience name for "all" pass in the directory.
@@ -2102,7 +2215,7 @@ lab2andDriver/drivers/cv_camera/CMakeFiles/test_cv_camera.dir/all: gtest/gtest/C
 lab2andDriver/drivers/cv_camera/CMakeFiles/test_cv_camera.dir/all: lab2andDriver/drivers/cv_camera/CMakeFiles/cv_camera.dir/all
 	$(MAKE) -f lab2andDriver/drivers/cv_camera/CMakeFiles/test_cv_camera.dir/build.make lab2andDriver/drivers/cv_camera/CMakeFiles/test_cv_camera.dir/depend
 	$(MAKE) -f lab2andDriver/drivers/cv_camera/CMakeFiles/test_cv_camera.dir/build.make lab2andDriver/drivers/cv_camera/CMakeFiles/test_cv_camera.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ur3/catkin_harshg2/build/CMakeFiles --progress-num=35,36 "Built target test_cv_camera"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ur3/catkin_harshg2/build/CMakeFiles --progress-num=40,41 "Built target test_cv_camera"
 .PHONY : lab2andDriver/drivers/cv_camera/CMakeFiles/test_cv_camera.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2979,7 +3092,7 @@ lab2andDriver/drivers/cv_camera/CMakeFiles/test_cv_camera_no_yaml.dir/all: gtest
 lab2andDriver/drivers/cv_camera/CMakeFiles/test_cv_camera_no_yaml.dir/all: lab2andDriver/drivers/cv_camera/CMakeFiles/cv_camera.dir/all
 	$(MAKE) -f lab2andDriver/drivers/cv_camera/CMakeFiles/test_cv_camera_no_yaml.dir/build.make lab2andDriver/drivers/cv_camera/CMakeFiles/test_cv_camera_no_yaml.dir/depend
 	$(MAKE) -f lab2andDriver/drivers/cv_camera/CMakeFiles/test_cv_camera_no_yaml.dir/build.make lab2andDriver/drivers/cv_camera/CMakeFiles/test_cv_camera_no_yaml.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ur3/catkin_harshg2/build/CMakeFiles --progress-num=37,38 "Built target test_cv_camera_no_yaml"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ur3/catkin_harshg2/build/CMakeFiles --progress-num=42,43 "Built target test_cv_camera_no_yaml"
 .PHONY : lab2andDriver/drivers/cv_camera/CMakeFiles/test_cv_camera_no_yaml.dir/all
 
 # Build rule for subdir invocation for target.
@@ -3157,7 +3270,7 @@ lab2andDriver/drivers/ur_modern_driver/preinstall:
 lab2andDriver/drivers/ur_modern_driver/CMakeFiles/ur_hardware_interface.dir/all:
 	$(MAKE) -f lab2andDriver/drivers/ur_modern_driver/CMakeFiles/ur_hardware_interface.dir/build.make lab2andDriver/drivers/ur_modern_driver/CMakeFiles/ur_hardware_interface.dir/depend
 	$(MAKE) -f lab2andDriver/drivers/ur_modern_driver/CMakeFiles/ur_hardware_interface.dir/build.make lab2andDriver/drivers/ur_modern_driver/CMakeFiles/ur_hardware_interface.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ur3/catkin_harshg2/build/CMakeFiles --progress-num=47,48 "Built target ur_hardware_interface"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ur3/catkin_harshg2/build/CMakeFiles --progress-num=52,53 "Built target ur_hardware_interface"
 .PHONY : lab2andDriver/drivers/ur_modern_driver/CMakeFiles/ur_hardware_interface.dir/all
 
 # Include target in all.
@@ -3803,7 +3916,7 @@ lab2andDriver/drivers/ur_modern_driver/CMakeFiles/ur_driver.dir/all: lab2andDriv
 lab2andDriver/drivers/ur_modern_driver/CMakeFiles/ur_driver.dir/all: lab2andDriver/drivers/ur_modern_driver/CMakeFiles/ur_msgs_generate_messages_lisp.dir/all
 	$(MAKE) -f lab2andDriver/drivers/ur_modern_driver/CMakeFiles/ur_driver.dir/build.make lab2andDriver/drivers/ur_modern_driver/CMakeFiles/ur_driver.dir/depend
 	$(MAKE) -f lab2andDriver/drivers/ur_modern_driver/CMakeFiles/ur_driver.dir/build.make lab2andDriver/drivers/ur_modern_driver/CMakeFiles/ur_driver.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ur3/catkin_harshg2/build/CMakeFiles --progress-num=39,40,41,42,43,44,45,46 "Built target ur_driver"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ur3/catkin_harshg2/build/CMakeFiles --progress-num=44,45,46,47,48,49,50,51 "Built target ur_driver"
 .PHONY : lab2andDriver/drivers/ur_modern_driver/CMakeFiles/ur_driver.dir/all
 
 # Include target in all.

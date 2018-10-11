@@ -816,6 +816,32 @@ lab2node/fast:
 .PHONY : lab2node/fast
 
 #=============================================================================
+# Target rules for targets named lab3pkglib
+
+# Build rule for target.
+lab3pkglib: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 lab3pkglib
+.PHONY : lab3pkglib
+
+# fast build rule for target.
+lab3pkglib/fast:
+	$(MAKE) -f lab3pkg/CMakeFiles/lab3pkglib.dir/build.make lab3pkg/CMakeFiles/lab3pkglib.dir/build
+.PHONY : lab3pkglib/fast
+
+#=============================================================================
+# Target rules for targets named lab3node
+
+# Build rule for target.
+lab3node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 lab3node
+.PHONY : lab3node
+
+# fast build rule for target.
+lab3node/fast:
+	$(MAKE) -f lab3pkg/CMakeFiles/lab3node.dir/build.make lab3pkg/CMakeFiles/lab3node.dir/build
+.PHONY : lab3node/fast
+
+#=============================================================================
 # Target rules for targets named _run_tests_cv_camera_rostest_test_cv_camera.test
 
 # Build rule for target.
@@ -1762,6 +1788,8 @@ help:
 	@echo "... std_msgs_generate_messages_cpp"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... lab2node"
+	@echo "... lab3pkglib"
+	@echo "... lab3node"
 	@echo "... _run_tests_cv_camera_rostest_test_cv_camera.test"
 	@echo "... _run_tests_cv_camera_rostest"
 	@echo "... run_tests_cv_camera_rostest"
