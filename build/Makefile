@@ -842,6 +842,32 @@ lab3node/fast:
 .PHONY : lab3node/fast
 
 #=============================================================================
+# Target rules for targets named lab4pkglib
+
+# Build rule for target.
+lab4pkglib: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 lab4pkglib
+.PHONY : lab4pkglib
+
+# fast build rule for target.
+lab4pkglib/fast:
+	$(MAKE) -f lab4pkg/CMakeFiles/lab4pkglib.dir/build.make lab4pkg/CMakeFiles/lab4pkglib.dir/build
+.PHONY : lab4pkglib/fast
+
+#=============================================================================
+# Target rules for targets named lab4node
+
+# Build rule for target.
+lab4node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 lab4node
+.PHONY : lab4node
+
+# fast build rule for target.
+lab4node/fast:
+	$(MAKE) -f lab4pkg/CMakeFiles/lab4node.dir/build.make lab4pkg/CMakeFiles/lab4node.dir/build
+.PHONY : lab4node/fast
+
+#=============================================================================
 # Target rules for targets named _run_tests_cv_camera_rostest_test_cv_camera.test
 
 # Build rule for target.
@@ -1308,6 +1334,32 @@ bond_generate_messages_lisp: cmake_check_build_system
 bond_generate_messages_lisp/fast:
 	$(MAKE) -f lab2andDriver/drivers/cv_camera/CMakeFiles/bond_generate_messages_lisp.dir/build.make lab2andDriver/drivers/cv_camera/CMakeFiles/bond_generate_messages_lisp.dir/build
 .PHONY : bond_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named lab56pkglib
+
+# Build rule for target.
+lab56pkglib: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 lab56pkglib
+.PHONY : lab56pkglib
+
+# fast build rule for target.
+lab56pkglib/fast:
+	$(MAKE) -f lab56pkg/CMakeFiles/lab56pkglib.dir/build.make lab56pkg/CMakeFiles/lab56pkglib.dir/build
+.PHONY : lab56pkglib/fast
+
+#=============================================================================
+# Target rules for targets named lab56node
+
+# Build rule for target.
+lab56node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 lab56node
+.PHONY : lab56node
+
+# fast build rule for target.
+lab56node/fast:
+	$(MAKE) -f lab56pkg/CMakeFiles/lab56node.dir/build.make lab56pkg/CMakeFiles/lab56node.dir/build
+.PHONY : lab56node/fast
 
 #=============================================================================
 # Target rules for targets named ur_hardware_interface
@@ -1790,6 +1842,8 @@ help:
 	@echo "... lab2node"
 	@echo "... lab3pkglib"
 	@echo "... lab3node"
+	@echo "... lab4pkglib"
+	@echo "... lab4node"
 	@echo "... _run_tests_cv_camera_rostest_test_cv_camera.test"
 	@echo "... _run_tests_cv_camera_rostest"
 	@echo "... run_tests_cv_camera_rostest"
@@ -1826,6 +1880,8 @@ help:
 	@echo "... roslint"
 	@echo "... bond_generate_messages_eus"
 	@echo "... bond_generate_messages_lisp"
+	@echo "... lab56pkglib"
+	@echo "... lab56node"
 	@echo "... ur_hardware_interface"
 	@echo "... tf2_msgs_generate_messages_cpp"
 	@echo "... tf_generate_messages_nodejs"

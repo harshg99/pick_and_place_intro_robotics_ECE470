@@ -1,2 +1,2 @@
-lab2andDriver/drivers/cv_camera:lab2andDriver/drivers/ece470_ur3_driver:lab2andDriver/drivers/ur_description:lab2andDriver/drivers/ur_modern_driver:lab2andDriver/lab2pkg:lab3pkg
+lab2andDriver/drivers/cv_camera:lab2andDriver/drivers/ece470_ur3_driver:lab2andDriver/drivers/ur_description:lab2andDriver/drivers/ur_modern_driver:lab2andDriver/lab2pkg:lab3pkg:lab4pkg:lab56pkg
 -DCATKIN_DEVEL_PREFIX=/home/ur3/catkin_harshg2/devel -DCMAKE_INSTALL_PREFIX=/home/ur3/catkin_harshg2/install -G Unix Makefiles
