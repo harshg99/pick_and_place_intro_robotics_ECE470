@@ -12,6 +12,13 @@ float SuctionValue = 0.0;
 bool leftclickdone = 1;
 bool rightclickdone = 1;
 
+//Structure for storing objects position
+struct Position{
+  long int posx;
+  long int posy;
+};
+//data structure to store centres of all objects
+Position *objects_centroid=nullptr;
 /*****************************************************
 * Functions in class:
 * **************************************************/	
@@ -98,6 +105,8 @@ void ImageConverter::imageCb(const sensor_msgs::ImageConstPtr& msg)
 	cvtColor( cv_ptr->image, gray_image, CV_BGR2GRAY );  
     // convert to black and white img, then associate objects:  
 
+
+
 	Mat bw_image;
 	adaptiveThreshold(gray_image,bw_image,255,0,0,151,5);
 	//adaptiveThreshold(scr,dst,MAXVALUE,adaptiveMethod,thresholdType,blocksize,C);
@@ -165,10 +174,10 @@ Mat ImageConverter::associateObjects(Mat bw_img)
 	// initialize an array of labels, assigning a label number to each pixel in the image
 	// this create a 2 dimensional array pixellabel[row][col]
 	int ** pixellabel = new int*[height];
-  int label[1000];
-  int *equiv[1000];
+  int label[10000];
+  int *equiv[10000];
 
-  for (int i=0;i<1000;i++){
+  for (int i=0;i<10000;i++){
     label[i]=0;
     equiv[i]=&label[i];
   }
@@ -188,10 +197,10 @@ Mat ImageConverter::associateObjects(Mat bw_img)
 		for(int col=0; col<width; col++) 
 		{
       if(bw_img.data[row*width+col]==0){
-        pixellabel[row][col] = -1;
+        pixellabel[row][col] = num;
       }
       else{
-        pixellabel[row][col]=num;
+        pixellabel[row][col]=-1;
       }
 
 		}
@@ -236,12 +245,12 @@ Mat ImageConverter::associateObjects(Mat bw_img)
           pixellabel[row][col]=Left;
         }
         else if(Up>=0 && Left>=0){
-          if(*equiv[Up]>*equiv[Left]){
+          if((*equiv[Up])>(*equiv[Left])){
             pixellabel[row][col]=*equiv[Left];
             *equiv[Up]=*equiv[Left];
             equiv[Up]=equiv[Left];
           }
-          else if((*equiv[Up]<*equiv[Left])){
+          else if(((*equiv[Up])<(*equiv[Left]))){
             pixellabel[row][col]=*equiv[Up];
             *equiv[Left]=*equiv[Up];
             equiv[Left]=equiv[Up];
@@ -254,8 +263,8 @@ Mat ImageConverter::associateObjects(Mat bw_img)
     }
   }
 
-  int size[2000];
-  for(int i=0;i<2000;i++){
+  int size[10000];
+  for(int i=0;i<10000;i++){
     size[i]=0;
   }
 
@@ -272,13 +281,13 @@ Mat ImageConverter::associateObjects(Mat bw_img)
   }
 
   int obj_num=1;
-  for(int i=0;i<2000;i++){
-    if(size[i]>=150 && size[i]<=8000){
+  for(int i=0;i<10000;i++){
+    if(size[i]>=300 && size[i]<=2000){
       size[i]=obj_num;
       obj_num++;
     }
     else{
-      size[i]=0;
+      size[i]=-1;
     }
   }
 
@@ -290,11 +299,11 @@ Mat ImageConverter::associateObjects(Mat bw_img)
        pixellabel[row][col]=size[pixellabel[row][col]];
       }
       else{
-        pixellabel[row][col]=0;
+        pixellabel[row][col]=-1;
       }
     }
   }
-  cout<<obj_num<<endl;
+  cout<<"Number of Objects: "<<obj_num-1<<endl;
 
 	// assign UNIQUE color to each object
 	Mat associate_img = Mat::zeros( bw_img.size(), CV_8UC3 ); // function will return this image
@@ -370,6 +379,34 @@ Mat ImageConverter::associateObjects(Mat bw_img)
 		}
 	}
 	
+  //LAB 6 Code to find Object Centroid
+  if(obj_num>1){
+  objects_centroid=new Position[obj_num-1];
+  int *size_arr=new int[obj_num-1];
+
+  for(int j=0;j<obj_num-1;j++){
+    objects_centroid[i].posx=0;
+    objects_centroid[i].posy=0;
+    size_arr[i]=0;
+  }
+
+  for(int row=0; row<height; row++)
+  {
+    for(int col=0; col<width; col++)
+    {
+      if(pixellabel[row][col]>=0){
+       size_arr[pixellabel[row][col]-1]++;
+       objects_centroid[pixellabel[row][col]-1].posx+=row;
+       objects_centroid[pixellabel[row][col]-1].posy+=col;
+      }
+    }
+  }
+  for(int j=0;j<obj_num-1;j++){
+    objects_centroid[i].posx/=size_arr[i];
+    objects_centroid[i].posy/=size_arr[i];
+  }
+
+  }
 	return associate_img;
 }
 
