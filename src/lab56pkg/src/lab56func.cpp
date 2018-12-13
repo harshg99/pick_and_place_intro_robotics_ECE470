@@ -18,7 +18,16 @@ struct Position{
   long int posy;
 };
 //data structure to store centres of all objects
-Position *objects_centroid=nullptr;
+Position *objects_centroid;
+int num_objs;
+float camera_calib_beta=(float)8/60;
+int Oc=320;
+int Or=240;
+float camx=0.221;
+float camy=0.068;
+
+double home[]={158*PI/180,-95*PI/180,132*PI/180,-130*PI/180,-92*PI/180,68*PI/180};
+std::vector<double> QH (home,home+sizeof(home) / sizeof(home[0]));
 /*****************************************************
 * Functions in class:
 * **************************************************/	
@@ -39,7 +48,7 @@ ImageConverter::ImageConverter():it_(nh_)
 	srv_SetIO = nh_.serviceClient<ur_msgs::SetIO>("ur_driver/set_io");
 
 
-    driver_msg.destination=lab_invk(-.3,-.3,0.2,-90);
+    driver_msg.destination=QH;
 
 	//publish the point to the robot
     ros::Rate loop_rate(SPIN_RATE); // Initialize the rate to publish to ur3/command
@@ -127,6 +136,7 @@ void ImageConverter::imageCb(const sensor_msgs::ImageConstPtr& msg)
     waitKey(3);
     // Output some video stream
     image_pub_.publish(cv_ptr->toImageMsg());
+    delete objects_centroid;
 } 
 
 /*****************************************************
@@ -282,7 +292,7 @@ Mat ImageConverter::associateObjects(Mat bw_img)
 
   int obj_num=1;
   for(int i=0;i<10000;i++){
-    if(size[i]>=300 && size[i]<=2000){
+    if(size[i]>=600 && size[i]<=2000){
       size[i]=obj_num;
       obj_num++;
     }
@@ -303,7 +313,7 @@ Mat ImageConverter::associateObjects(Mat bw_img)
       }
     }
   }
-  cout<<"Number of Objects: "<<obj_num-1<<endl;
+//  cout<<"Number of Objects: "<<obj_num-1<<endl;
 
 	// assign UNIQUE color to each object
 	Mat associate_img = Mat::zeros( bw_img.size(), CV_8UC3 ); // function will return this image
@@ -383,8 +393,8 @@ Mat ImageConverter::associateObjects(Mat bw_img)
   if(obj_num>1){
   objects_centroid=new Position[obj_num-1];
   int *size_arr=new int[obj_num-1];
-
-  for(int j=0;j<obj_num-1;j++){
+  num_objs=obj_num-1;
+  for(int i=0;i<obj_num-1;i++){
     objects_centroid[i].posx=0;
     objects_centroid[i].posy=0;
     size_arr[i]=0;
@@ -396,16 +406,20 @@ Mat ImageConverter::associateObjects(Mat bw_img)
     {
       if(pixellabel[row][col]>=0){
        size_arr[pixellabel[row][col]-1]++;
-       objects_centroid[pixellabel[row][col]-1].posx+=row;
-       objects_centroid[pixellabel[row][col]-1].posy+=col;
+       objects_centroid[pixellabel[row][col]-1].posx+=col;
+       objects_centroid[pixellabel[row][col]-1].posy+=row;
       }
     }
   }
   for(int j=0;j<obj_num-1;j++){
-    objects_centroid[i].posx/=size_arr[i];
-    objects_centroid[i].posy/=size_arr[i];
+    objects_centroid[j].posx/=size_arr[j];
+    objects_centroid[j].posy/=size_arr[j];
+    cv::drawMarker(associate_img, cv::Point(objects_centroid[j].posx,  objects_centroid[j].posy),  cv::Scalar(119, 177, 55), MARKER_CROSS, 10, 1);
   }
 
+  }
+  else{
+    objects_centroid=NULL;
   }
 	return associate_img;
 }
@@ -422,10 +436,95 @@ void onMouse(int event, int x, int y, int flags, void* userdata)
 {
 		ic_ptr->onClick(event,x,y,flags,userdata);
 }
+
+bool setSuction(ros::ServiceClient srv_SetIO,ur_msgs::SetIO srv,double state){
+  bool error = false;
+  srv.request.fun = 1;
+  srv.request.pin = 0;  //Digital Output 0
+  srv.request.state = state; //Set DO0 on
+  if (srv_SetIO.call(srv)) {
+    ROS_INFO("True: Switched Suction ON");
+  } else {
+    ROS_INFO("False");
+    error=true;
+  }
+  return error;
+}
+
+int move_arm(	ros::Publisher pub_command , ros::Rate loop_rate, std::vector<double> dest, float duration)
+{
+    int error = 0;
+    int spincount = 0;
+    ece470_ur3_driver::command driver_msg;
+    ROS_INFO("sending Goals");
+    driver_msg.destination=dest;
+    driver_msg.duration=duration;
+    pub_command.publish(driver_msg);  // publish command, but note that is possible that
+                          // the subscriber will not receive this message.
+    spincount = 0;
+    while (isReady) { // Waiting for isReady to be false meaning that the driver has the new command
+      ros::spinOnce();  // Allow other ROS functionallity to run
+      loop_rate.sleep(); // Sleep and wake up at 1/20 second (1/SPIN_RATE) interval
+      if (spincount > SPIN_RATE) {  // if isReady does not get set within 1 second re-publish
+        pub_command.publish(driver_msg);
+        ROS_INFO("Just Published again driver_msg");
+        spincount = 0;
+      }
+      spincount++;  // keep track of loop count
+    }
+
+    ROS_INFO("waiting for rdy");  // Now wait for robot arm to reach the commanded waypoint.
+    while(!isReady)
+    {
+      ros::spinOnce();
+      loop_rate.sleep();
+    }
+
+}
+
+int move_block(ros::Publisher pub_command ,
+                ros::Rate loop_rate,
+                ros::ServiceClient srv_SetIO,
+                ur_msgs::SetIO srv,
+                float X1w,
+                float Y1w,
+                float X2w,
+                float Y2w)
+{   float Zw=0.022;
+    int ok=1;
+    move_arm(pub_command,loop_rate,QH,3.0);
+    move_arm(pub_command,loop_rate,lab_invk(X1w,Y1w,Zw,-90),3.0);
+    setSuction(srv_SetIO,srv,1.0);
+    move_arm(pub_command,loop_rate,QH,3.0);
+
+    int spincount=0;
+    while (spincount<6) { // Waiting for isReady to be false meaning that the driver has the new command
+      ros::spinOnce();  // Allow other ROS functionallity to run
+      loop_rate.sleep(); // Sleep and wake up at 1/20 second (1/SPIN_RATE) interval
+      spincount++;  // keep track of loop count
+    }
+
+//    cout<<"Picked "<<pick_State;
+//    if(pick_State==false){
+//      ROS_INFO("BLOCK NOT PICKED UPP\n\n");
+//      ok=0;
+//      return ok;
+//    }
+    move_arm(pub_command,loop_rate,lab_invk(X2w,Y2w,0.055,-90),3.0);
+    setSuction(srv_SetIO,srv,0.0);
+    move_arm(pub_command,loop_rate,QH,3.0);
+    return ok;
+
+}
+float Xw1;
+float Yw1;
+float Xw2;
+float Yw2;
 void ImageConverter::onClick(int event,int x, int y, int flags, void* userdata)
 {
 	// For use with Lab 6
 	// If the robot is holding a block, place it at the designated row and column. 
+
 	if  ( event == EVENT_LBUTTONDOWN ) //if left click, do nothing other than printing the clicked point
 	{  
 		if (leftclickdone == 1) {
@@ -433,9 +532,24 @@ void ImageConverter::onClick(int event,int x, int y, int flags, void* userdata)
 			ROS_INFO_STREAM("left click:  (" << x << ", " << y << ")");  //the point you clicked
 
 			// put your left click code here
-
-
+      int min_dist=abs(x-objects_centroid[0].posx)+abs(y-objects_centroid[0].posy);
+      int pick_obj_id=0;
+      //int obj_num=sizeof(objects_centroid)/sizeof(objects_centroid[0]);
+      ROS_INFO("OBJECTS: %d",num_objs);
+      for(int j=0;j<num_objs;j++){
+         int dist=abs(x-objects_centroid[j].posx)+abs(y-objects_centroid[j].posy);
+         if(dist<min_dist){
+           pick_obj_id=j;
+           min_dist=dist;
+         }
+      }
+      ROS_INFO("OBJECTS Cent: %d %d",objects_centroid[pick_obj_id].posx,objects_centroid[pick_obj_id].posy);
+      float Xc=(float)(objects_centroid[pick_obj_id].posx-Oc)*camera_calib_beta/100;
+      float Yc=(float)(objects_centroid[pick_obj_id].posy-Or)*camera_calib_beta/100;
+      Xw1=-Yc+camx;
+      Yw1=-Xc+camy;
 			leftclickdone = 1; // code finished
+      ROS_INFO("OBJECTS: %lf %lf %d %lf",Xw1,Yw1,pick_obj_id,camera_calib_beta);
 		} else {
 			ROS_INFO_STREAM("Previous Left Click not finshed, IGNORING this Click"); 
 		}
@@ -447,13 +561,37 @@ void ImageConverter::onClick(int event,int x, int y, int flags, void* userdata)
 			ROS_INFO_STREAM("right click:  (" << x << ", " << y << ")");  //the point you clicked
 
 			// put your right click code here
-
-
+      int min_dist=abs(x-objects_centroid[0].posx)+abs(y-objects_centroid[0].posy);
+      int pick_obj_id=0;
+      //int obj_num=sizeof(objects_centroid)/sizeof(objects_centroid[0]);
+      //ROS_INFO("OBJECTS: %d",obj_num);
+      for(int j=0;j<num_objs;j++){
+         int dist=abs(x-objects_centroid[j].posx)+abs(y-objects_centroid[j].posy);
+         if(dist<min_dist){
+           pick_obj_id=j;
+           min_dist=dist;
+         }
+      }
+      ROS_INFO("OBJECTS Cent: %d %d",objects_centroid[pick_obj_id].posx,objects_centroid[pick_obj_id].posy);
+      float Xc=(float)(objects_centroid[pick_obj_id].posx-Oc)*camera_calib_beta/100;
+      float Yc=(float)(objects_centroid[pick_obj_id].posy-Or)*camera_calib_beta/100;
+      Xw2=-Yc+camx;
+      Yw2=-Xc+camy;
 
 			rightclickdone = 1; // code finished
+       ROS_INFO("OBJECTS: %lf %lf %d",Xw2,Yw2,pick_obj_id);
 		} else {
 			ROS_INFO_STREAM("Previous Right Click not finshed, IGNORING this Click"); 
 		}
+    if(leftclickdone==1 && rightclickdone==1){
+      ros::Rate loop_rate(SPIN_RATE);
+      ROS_INFO("Command: %lf %lf %lj %lf",Xw1,Yw1,Xw2,Yw2);
+      move_block( pub_command ,loop_rate,srv_SetIO,srv,Xw1,Yw1,Xw2,Yw2);
+      Xw1=0.0;
+      Yw1=0.0;
+      Xw2=0.0;
+      Yw2=0.0;
+    }
 	}
 }
 
